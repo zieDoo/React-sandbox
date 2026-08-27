@@ -7,7 +7,7 @@
 
 // Ternarny Operator
 // - consise way to write if statement.
-// In JSX (what react components retursn), we can put dynamic expressions in the curly braces {}
+// In JSX (what react components returns), we can put dynamic expressions in the curly braces {}
 // but we cannot put tere a whole "if" statement.
 
 // Regular IF statement
