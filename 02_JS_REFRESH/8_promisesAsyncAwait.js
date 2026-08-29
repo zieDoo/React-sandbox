@@ -56,7 +56,7 @@ fetch("https://jsonplaceholder.typicode.com/posts/1")
   .catch((error) => console.log(error)); // if we get an error, we can handle it with .CATCH
 // !!! If we use for example AXIOS, we dont need to have 2 .THENs
 
-// Sync/Await
+// Async/Await
 // This has to be witin a function which is Asynchronous
 
 // Regular function would be: 'async function fetchData(){}'
