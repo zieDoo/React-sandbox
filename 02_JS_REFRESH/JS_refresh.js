@@ -397,3 +397,137 @@ const cart = [
 // map() / filter()
 
 // Cieľ: spočítať celkovú cenu všetkých produktov v košíku.
+
+// IMPLICITNY RETURN = bez {} netreba pisat 'return'
+const cartTotal = cart.reduce((total, actual) => total + actual.price, 0);
+
+// NEFUNGUJE LEBO CHYBA slovo RETURN - explicitne dane. pri {} treba davat return.
+// const cartTotal = cart.reduce((total, actual) => {
+//   total + actual.price;
+// }, 0);
+
+console.log(cartTotal);
+
+// =================================================================================
+
+// Úloha 12 — reduce()
+
+// Máš:
+
+const expenses = [15, 8, 22, 10, 5];
+
+// Vytvor premennú totalExpenses, ktorá bude obsahovať súčet všetkých výdavkov.
+
+// Výsledok:
+
+// 60
+
+// Podmienky:
+
+// použi reduce()
+// použi arrow function
+// použi počiatočnú hodnotu 0
+// žiadny for
+// žiadny if
+
+const totalExpenses = expenses.reduce((total, actual) => {
+  return total + actual;
+}, 0);
+
+console.log(totalExpenses);
+
+// =================================================================================
+
+// Úloha 13 — reduce() trochu inak
+
+// Tentokrát nechcem sčítať čísla.
+
+// Máš:
+
+const words = ["Hello", "world", "from", "JavaScript"];
+
+// Použi reduce() a vytvor:
+
+// const sentence
+
+// tak, aby výsledok bol:
+
+// Hello world from JavaScript
+
+// Podmienky:
+
+// reduce()
+// arrow function
+// výsledok musí byť jeden string
+// žiadny join()
+
+// const sentence = words.reduce((total, actual) => `${total} ${actual}`, "");  // dobre ale na zaciatku je medzera
+
+// Lepsie
+const sentence = words.reduce(
+  (total, actual) => (total ? `${total} ${actual}` : actual),
+  "",
+);
+
+// Čiže:
+
+// Ak už total niečo obsahuje → pridaj medzeru + nové slovo.
+// Ak je total prázdny → pridaj iba prvé slovo.
+
+console.log(sentence);
+
+// =================================================================================
+
+// Úloha 14 — includes()
+
+// Máš:
+
+const availableLanguages = ["JavaScript", "Python", "TypeScript", "Java"];
+
+// Vytvor:
+
+// const knowsJavaScript = ...
+
+// ktorá bude obsahovať true, ak sa "JavaScript" nachádza v poli.
+
+// Výsledok:
+
+// true
+
+// Podmienky:
+
+// použi includes()
+// žiadny if
+// žiadny for
+// žiadny find() / some()
+
+const knowsJavaScript = availableLanguages.includes("JavaScript");
+
+console.log(knowsJavaScript);
+
+// =================================================================================
+
+// Úloha 15 — sort()
+
+// Máš:
+
+const scores = [45, 12, 89, 34, 67];
+
+// Vytvor sortedScores, ktoré bude obsahovať čísla od najmenšieho po najväčšie:
+
+// [12, 34, 45, 67, 89]
+
+// Použi sort().
+
+// const sortedScores = scores.sort(); // toto bola len nahoda.
+
+// Sort funguje takto:
+
+const sortedScores = scores.sort((a, b) => b - a);
+
+console.log(sortedScores);
+
+// (a - b) → ascending - [1,2,3,5,9]
+// (b - a) → descending - [9,8,7,3,1, -2]
+
+// =================================================================================
