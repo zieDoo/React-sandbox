@@ -1219,3 +1219,323 @@ const showScore = async () => {
 };
 
 showScore();
+
+// =================================================================================
+
+// Úloha 34 — async/await + spracovanie výsledku
+
+// Máš pripravenú funkciu:
+
+const getPrice = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(250);
+    }, 1000);
+  });
+};
+
+// Vytvor showDiscountedPrice, ktorá:
+
+// počká na getPrice()
+// zníži cenu o 20 %
+// vypíše výslednú cenu
+
+// Výsledok:
+
+// 200
+
+// Podmienky:
+
+// použi async
+// použi await
+// žiadny .then()
+// žiadny if
+
+const showDiscountedPrice = async () => {
+  const price = await getPrice();
+  const reducedPrice = (price * 80) / 100;
+  console.log(reducedPrice);
+};
+
+showDiscountedPrice();
+
+// =================================================================================
+
+// Úloha 35 — async/await + try/catch (error handling)
+
+// Máš:
+
+const getData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject("Failed to load data");
+    }, 1000);
+  });
+};
+
+// Vytvor loadData, ktorá:
+
+// použije async/await
+// zavolá getData()
+// zachytí chybu pomocou try/catch
+// vypíše chybu do konzoly
+
+// Výsledok:
+
+// Failed to load data
+
+// Podmienky:
+
+// async
+// await
+// try
+// catch
+// žiadny .then()
+
+const loadData = async () => {
+  try {
+    const data = await getData();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+loadData();
+
+// =================================================================================
+
+// Úloha 36 — dva Promises naraz za sebou
+
+// Máš dve funkcie:
+
+const getUserName = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Samuel");
+    }, 1000);
+  });
+};
+
+const getUserAge = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(40);
+    }, 1000);
+  });
+};
+
+// Vytvor showUserInfo, ktorá pomocou async/await:
+
+// získa meno
+// získa vek
+// vypíše:
+// Samuel is 40 years old
+
+// Podmienky:
+
+// async
+// await
+// oba Promises musíš použiť
+// žiadny .then()
+// žiadny Promise.all() — ten si necháme na neskôr
+
+const showUserInfo = async () => {
+  const userName = await getUserName();
+  const userAge = await getUserAge();
+  console.log(`${userName} is ${userAge} years old`);
+};
+
+showUserInfo();
+
+// =================================================================================
+
+// Úloha 37 — Promise.all()
+
+// Máš:
+
+const getUsername37 = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Samuel");
+    }, 1000);
+  });
+};
+
+const getRole = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Developer");
+    }, 1000);
+  });
+};
+
+// Chceme dostať obe hodnoty naraz a vypísať:
+
+// Samuel - Developer
+
+// Použi:
+
+// async/await
+// Promise.all()
+
+// Žiadny .then().
+
+const devInfo = async () => {
+  const getPromiseAll = await Promise.all([getUsername37(), getRole()]);
+  console.log(`${getPromiseAll[0]} - ${getPromiseAll[1]}`);
+};
+
+devInfo();
+
+// =================================================================================
+
+// Úloha 38 — Promise.all() + try/catch
+
+// Máš:
+
+const getProfile = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Profile loaded");
+    }, 1000);
+  });
+};
+
+const getNotifications = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject("Notifications failed");
+    }, 1000);
+  });
+};
+
+// Vytvor loadDashboard, ktorá:
+
+// použije async/await
+// použije Promise.all()
+// použije try/catch
+// pokúsi sa načítať oba Promises
+// ak všetko prejde, vypíše oba výsledky
+// ak jeden z nich zlyhá, vypíše chybu
+
+// V tomto prípade teda očakávame:
+
+// Notifications failed
+
+// 💡 Dôležitá otázka na premýšľanie:
+
+// Kam umiestniš Promise.all() a kam try/catch, aby catch zachytil reject() z ktoréhokoľvek Promise?
+
+const loadDashboard = async () => {
+  try {
+    const dashData = await Promise.all([getProfile(), getNotifications()]);
+    console.log(dashData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+loadDashboard();
+
+// =================================================================================
+
+// Úloha 39 — Async/Await + filter() + map()
+
+// Máš:
+
+const getProducts = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Laptop", price: 1200 },
+        { name: "Mouse", price: 40 },
+        { name: "Monitor", price: 350 },
+        { name: "Keyboard", price: 80 },
+      ]);
+    }, 1000);
+  });
+};
+
+// Vytvor getExpensiveProductNames, ktorá:
+
+// pomocou await získa produkty
+// nechá iba produkty s cenou nad 100 €
+// získa z nich iba názvy
+// vypíše výsledok
+
+// Očakávaný výsledok:
+
+// ["Laptop", "Monitor"]
+
+// Použi:
+
+// async
+// await
+// filter()
+// map()
+
+// Žiadny .then(), for ani reduce().
+
+const getExpensiveProductNames = async () => {
+  const products = await getProducts();
+  // console.log(products);
+  const aboveHundred = products
+    .filter((item) => item.price >= 100)
+    .map((item) => item.name);
+  console.log(aboveHundred);
+};
+
+getExpensiveProductNames();
+
+// =================================================================================
+
+// Úloha 40 — Promise + map() + filter() + reduce()
+
+// Máš pripravenú funkciu:
+
+const getOrders = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { product: "Laptop", price: 1200, paid: true },
+        { product: "Mouse", price: 40, paid: false },
+        { product: "Monitor", price: 350, paid: true },
+        { product: "Keyboard", price: 80, paid: true },
+      ]);
+    }, 1000);
+  });
+};
+
+// Vytvor getPaidOrderTotal, ktorá:
+
+// pomocou async/await získa objednávky
+// nechá iba zaplatené objednávky
+// spočíta ich celkovú cenu
+// vypíše výsledok
+
+// Očakávaný výsledok:
+
+// 1630
+
+// Použi:
+
+// async
+// await
+// filter()
+// reduce()
+
+// Žiadny .then() ani for.
+
+const getPaidOrderTotal = async () => {
+  const data = await getOrders();
+  // console.log(data);
+  const paidOrders = data.filter((item) => item.paid === true);
+  console.log(paidOrders);
+  const reduced = paidOrders.reduce((total, actual) => total + actual.price, 0);
+  console.log(reduced);
+};
+
+getPaidOrderTotal();
+
+// =================================================================================
