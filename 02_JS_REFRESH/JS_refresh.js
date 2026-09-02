@@ -1539,3 +1539,529 @@ const getPaidOrderTotal = async () => {
 getPaidOrderTotal();
 
 // =================================================================================
+
+// Úloha 41 — Promise + find() + ?. + ??
+
+// Máš:
+
+const getEmployee = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Peter", role: "Developer" },
+        { name: "Martin", role: "Designer" },
+        { name: "Lucia", role: "ohManager" },
+      ]);
+    }, 1000);
+  });
+};
+
+// Vytvor getManagerName, ktorá:
+
+// pomocou async/await získa zamestnancov
+// nájde zamestnanca s rolou "Manager"
+// získa jeho meno
+// ak Manager neexistuje, použije "No manager found"
+
+// Očakávaný výsledok:
+
+// Lucia
+
+// Ak by si zmenil "Manager" na napr. "CEO":
+
+// No manager found
+
+// Použi:
+
+// async
+// await
+// find()
+// ?.
+// ??
+
+const getManagerName = async () => {
+  const allEmployee = await getEmployee();
+  console.log(allEmployee);
+  const findManager =
+    allEmployee.find((employee) => employee.role === "Manager")?.name ??
+    "No manager found";
+  console.log(findManager);
+};
+
+getManagerName();
+
+// =================================================================================
+
+// Úloha 42 — Spracovanie objednávok
+
+// Máme:
+
+const getCustomerOrders = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { product: "Laptop", price: 1200, status: "paid" },
+        { product: "Mouse", price: 40, status: "pending" },
+        { product: "Monitor", price: 350, status: "paid" },
+        { product: "Keyboard", price: 80, status: "cancelled" },
+        { product: "Headphones", price: 150, status: "paid" },
+      ]);
+    }, 1000);
+  });
+};
+
+// Tvoja úloha
+
+// Vytvor async funkciu, ktorá:
+
+// pomocou await získa objednávky,
+// vyberie iba objednávky so statusom "paid",
+// z nich vytvorí nové pole obsahujúce iba názvy produktov,
+// vypíše toto pole do konzoly,
+// následne vypočíta celkovú cenu zaplatených objednávok a tiež ju vypíše.
+
+// Očakávaný výsledok:
+
+// ["Laptop", "Monitor", "Headphones"]
+// 1700
+
+const getPaidOrders = async () => {
+  const orders = await getCustomerOrders();
+  // console.log(orders);
+  const paidOrders = orders.filter((product) => product.status === "paid");
+  // console.log(paidOrders);
+  const products = paidOrders.map((item) => item.product);
+  const totalSum = paidOrders.reduce(
+    (total, actual) => total + actual.price,
+    0,
+  );
+  console.log(products);
+  console.log(totalSum);
+};
+
+getPaidOrders();
+
+// =================================================================================
+
+// Úloha 43 — Dashboard používateľa
+
+// Máš dve nezávislé API volania:
+
+const getUserProfile = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        name: "Samuel",
+        role: "Developer",
+      });
+    }, 1000);
+  });
+};
+
+const getUserProjects = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "WenBuy", status: "active" },
+        { name: "Portfolio", status: "completed" },
+        { name: "Notes App", status: "active" },
+      ]);
+    }, 1500);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// pomocou Promise.all() načíta profil aj projekty,
+// získa z výsledku meno používateľa,
+// z projektov vyberie iba projekty so statusom "active",
+// pomocou map() vytvorí pole ich názvov,
+// vypíše výslednú informáciu napríklad takto:
+// Samuel
+// ["WenBuy", "Notes App"]
+
+// 💡 Pozor: Promise.all() ti vráti pole výsledkov v rovnakom poradí, v akom si Promises vložil do poľa.
+
+const userData = async () => {
+  const getUserData = await Promise.all([getUserProfile(), getUserProjects()]);
+  console.log(getUserData[0].name);
+  const activeProjects = getUserData[1]
+    .filter((project) => project.status === "active")
+    .map((project) => project.name);
+  console.log(activeProjects);
+};
+
+userData();
+
+// =================================================================================
+
+// Úloha 44 — API + error handling
+
+// Máš:
+
+const getProductsFromApi = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true;
+
+      if (success) {
+        resolve([
+          { name: "Laptop", price: 1200 },
+          { name: "Mouse", price: 40 },
+          { name: "Monitor", price: 350 },
+          { name: "Keyboard", price: 80 },
+        ]);
+      } else {
+        reject("Failed to load products");
+      }
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// pomocou try/catch zavolá API,
+// načíta produkty pomocou await,
+// vyberie produkty s cenou vyššou ako 100 €,
+// vytvorí z nich pole názvov,
+// vypíše ich,
+// ak API zlyhá, vypíše error.
+
+// Očakávaný úspešný výsledok:
+
+// ["Laptop", "Monitor"]
+
+// A ak zmeníš:
+
+// const success = false;
+
+// výsledkom má byť error z catch.
+
+const apiProducts = async () => {
+  try {
+    const productsFromAPI = await getProductsFromApi();
+    // console.log(productsFromAPI);
+    const higherThanHundred = productsFromAPI
+      .filter((product) => product.price > 100)
+      .map((product) => product.name);
+    console.log(higherThanHundred);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+apiProducts();
+
+// =================================================================================
+
+// Úloha 45 — Trochu reálnejšia
+
+// Tentoraz dostaneš objednávky od API, ale nie všetky budú úspešné.
+
+const getOrdersFromApi = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 101, customer: "Peter", total: 250, status: "completed" },
+        { id: 102, customer: "Lucia", total: 80, status: "pending" },
+        { id: 103, customer: "Martin", total: 450, status: "completed" },
+        { id: 104, customer: "Eva", total: 120, status: "cancelled" },
+        { id: 105, customer: "Jana", total: 300, status: "completed" },
+      ]);
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// načíta objednávky pomocou await,
+// vyberie iba objednávky so statusom "completed",
+// z nich vytvorí nové pole objektov, ktoré bude obsahovať iba:
+// customer
+// total
+// vypíše toto pole,
+// vypočíta a vypíše celkovú hodnotu všetkých completed objednávok.
+
+// Očakávaný výsledok:
+
+// [
+//   { customer: "Peter", total: 250 },
+//   { customer: "Martin", total: 450 },
+//   { customer: "Jana", total: 300 }
+// ]
+
+// 1000
+
+// Tentoraz je dôležitá nová vec: v map() nebudeš vracať iba jednu hodnotu ako doteraz, ale nový objekt.
+
+const getApiOrders = async () => {
+  const dataFromAPI = await getOrdersFromApi();
+  console.log(dataFromAPI);
+  const completeOrders = dataFromAPI
+    .filter((order) => order.status === "completed")
+    // .map((item) => console.log(item));
+    // console.log(completeOrders);
+    .map((item) => ({
+      customer: item.customer,
+      total: item.total,
+    }));
+  console.log(completeOrders);
+  const totalSum = completeOrders.reduce(
+    (acc, actual) => acc + actual.total,
+    0,
+  );
+  console.log(totalSum);
+};
+
+getApiOrders();
+
+// Tie vonkajšie () hovoria JavaScriptu:
+// „Toto nie je blok funkcie {}, ale objekt, ktorý chcem implicitne vrátiť.“
+
+// =================================================================================
+
+// Úloha 46 — Hľadanie používateľa z API
+
+// Máš:
+
+const getUsersFromApi = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 1, name: "Peter", email: "peter@email.com", active: true },
+        { id: 2, name: "Lucia", email: "lucia@email.com", active: false },
+        { id: 3, name: "Martin", email: "martin@email.com", active: true },
+        { id: 4, name: "Eva", email: "eva@email.com", active: true },
+      ]);
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// načíta používateľov pomocou await,
+// nájde používateľa s id === 3,
+// vypíše jeho meno a email,
+// zároveň bezpečne ošetri situáciu, keď používateľ s týmto ID neexistuje,
+// ak neexistuje, vypíše:
+// User not found
+
+// Bonus 🔥
+
+// Po nájdení používateľa skontroluj, či je active.
+
+// Ak je aktívny:
+
+// Martin is active
+
+// Ak nie:
+
+// Martin is inactive
+
+// Použi find() a skús využiť ?. alebo ??.
+
+const getApiUsers = async () => {
+  try {
+    const usersData = await getUsersFromApi();
+    // console.log(usersData);
+    // const foundUser = usersData.filter((user) => user.id === 3);
+    const foundUser = usersData.find((user) => user.id === 3);
+
+    console.log(foundUser?.name ?? "User not found", foundUser?.email);
+    if (foundUser.active) {
+      return console.log(`${foundUser.name} is active`);
+    } else {
+      return console.log(`${foundUser.name} is inactive`);
+    }
+    // ZEVRAJ NAJIDEALNEJSIE
+
+    //     if (foundUser) {
+    //   console.log(foundUser.name, foundUser.email);
+
+    //   if (foundUser.active) {
+    //     console.log(`${foundUser.name} is active`);
+    //   } else {
+    //     console.log(`${foundUser.name} is inactive`);
+    //   }
+    // } else {
+    //   console.log("User not found");
+    // }
+  } catch (error) {
+    console.log("User not found");
+  }
+};
+
+getApiUsers();
+
+// =================================================================================
+
+// Úloha 47 — Produkty a sklad
+
+// Máš dáta z API:
+
+const getInventory = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Laptop", category: "electronics", stock: 5, price: 1200 },
+        { name: "Mouse", category: "electronics", stock: 0, price: 40 },
+        { name: "Desk", category: "furniture", stock: 3, price: 250 },
+        { name: "Chair", category: "furniture", stock: 0, price: 180 },
+        { name: "Monitor", category: "electronics", stock: 7, price: 350 },
+      ]);
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// načíta inventár pomocou await,
+// vyberie iba produkty, ktoré sú skladom (stock > 0),
+// z nich vyberie iba kategóriu "electronics",
+// vytvorí nové pole objektov obsahujúce iba:
+// name
+// stock
+// price
+// vypíše výsledné pole,
+// vypočíta celkovú hodnotu skladu týchto produktov.
+
+// Pozor: hodnota skladu znamená:
+
+// stock × price
+
+// Takže napríklad Laptop:
+
+// 5 × 1200 = 6000
+
+// Očakávaný výsledok:
+
+// [
+//   { name: "Laptop", stock: 5, price: 1200 },
+//   { name: "Monitor", stock: 7, price: 350 }
+// ]
+
+// 8450
+
+const inventoryData = async () => {
+  const data = await getInventory();
+  // console.log(data);
+  const inStock = data.filter(
+    (item) => item.stock > 0 && item.category === "electronics",
+  );
+  console.log(inStock);
+  const newItemList = inStock.map((itStuff) => ({
+    name: itStuff.name,
+    stock: itStuff.stock,
+    price: itStuff.price,
+  }));
+  console.log(newItemList);
+  const listPrice = newItemList.reduce(
+    (total, actual) => total + actual.price * actual.stock,
+    0,
+  );
+  console.log(listPrice);
+};
+
+inventoryData();
+
+// =================================================================================
+
+// Úloha 48 — Kontrola tímu
+
+// Máš:
+
+const getTeamMembers = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Peter", role: "Developer", experience: 4 },
+        { name: "Lucia", role: "Designer", experience: 2 },
+        { name: "Martin", role: "Developer", experience: 6 },
+        { name: "Eva", role: "Tester", experience: 3 },
+      ]);
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// načíta členov tímu,
+// zistí, či sa v tíme nachádza aspoň jeden Developer s viac ako 5 rokmi skúseností,
+// vypíše výsledok ako true alebo false,
+// následne zistí, či majú všetci členovia tímu aspoň 2 roky skúseností,
+// vypíše aj tento výsledok.
+
+// Očakávaný výsledok:
+
+// true
+// true
+
+const teamInfo = async () => {
+  const teamData = await getTeamMembers();
+  console.log(teamData);
+  const atLeast5yearsExp = teamData.some(
+    (member) => member.role === "Developer" && member.experience > 5,
+  );
+  const atLeast2yearsExp = teamData.every((member) => member.experience >= 2);
+  console.log(atLeast5yearsExp);
+  console.log(atLeast2yearsExp);
+};
+
+teamInfo();
+
+// =================================================================================
+
+// Úloha 49 — Dostupnosť produktu
+
+// Máš:
+
+const getStoreProducts = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Laptop", price: 1200, stock: 4, rating: 4.8 },
+        { name: "Mouse", price: 40, stock: 0, rating: 4.5 },
+        { name: "Monitor", price: 350, stock: 8, rating: 4.2 },
+        { name: "Keyboard", price: 80, stock: 12, rating: 3.9 },
+        { name: "Headphones", price: 150, stock: 3, rating: 4.7 },
+      ]);
+    }, 1000);
+  });
+};
+
+// Zadanie
+
+// Vytvor async funkciu, ktorá:
+
+// načíta produkty,
+// zistí, či existuje aspoň jeden produkt, ktorý:
+// je skladom (stock > 0)
+// a má rating aspoň 4.7,
+// vypíše true alebo false,
+// následne nájde prvý produkt, ktorý:
+// je skladom,
+// má cenu nižšiu ako 100 €,
+// vypíše jeho názov,
+// ak taký produkt neexistuje, vypíše "No cheap product available".
+
+// Očakávaný výsledok:
+
+// true
+// Keyboard
+
+// Tentoraz budeš musieť sám rozpoznať dve rôzne otázky:
+
+// „Existuje aspoň jeden...?“
+// „Nájdi mi prvý...“
