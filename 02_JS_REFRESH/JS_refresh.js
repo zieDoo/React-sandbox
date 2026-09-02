@@ -2050,6 +2050,7 @@ const getStoreProducts = () => {
 // je skladom (stock > 0)
 // a má rating aspoň 4.7,
 // vypíše true alebo false,
+
 // následne nájde prvý produkt, ktorý:
 // je skladom,
 // má cenu nižšiu ako 100 €,
@@ -2065,3 +2066,86 @@ const getStoreProducts = () => {
 
 // „Existuje aspoň jeden...?“
 // „Nájdi mi prvý...“
+
+const storeData = async () => {
+  const dataPulled = await getStoreProducts();
+  console.log(dataPulled);
+
+  const oneProduct = dataPulled.some(
+    (product) => product.stock > 0 && product.rating >= 4.7,
+  );
+  console.log(oneProduct);
+
+  const firstInStock =
+    dataPulled.find((product) => product.stock > 0 && product.price < 100)
+      ?.name ?? "No cheap product available";
+  console.log(firstInStock);
+};
+
+storeData();
+
+// =================================================================================
+
+// Úloha 50 — Users & statistics
+
+// Máme:
+
+const getUsers = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Peter", age: 28, active: true, role: "Developer" },
+        { name: "Lucia", age: 34, active: false, role: "Designer" },
+        { name: "Martin", age: 41, active: true, role: "Developer" },
+        { name: "Eva", age: 25, active: true, role: "Tester" },
+        { name: "Jana", age: 38, active: false, role: "Manager" },
+      ]);
+    }, 1000);
+  });
+};
+
+// Tvoja úloha:
+
+// Vytvor async funkciu a načítaj používateľov pomocou await.
+// Zisti, či existuje aspoň jeden aktívny Developer starší ako 30 rokov.
+// Vypíš true alebo false.
+
+// Nájdi prvého aktívneho používateľa mladšieho ako 30 rokov.
+// Vypíš jeho meno.
+
+// Ak taký používateľ neexistuje, vypíš:
+// "No young active user found"
+
+// Nakoniec zisti celkový vek všetkých aktívnych používateľov a vypíš ho.
+
+// Očakávaný výsledok:
+
+// true
+// Peter
+// 94
+
+const pulledUsers = async () => {
+  const users = await getUsers();
+  console.log(users);
+
+  const activeDev = users.some(
+    (dev) => dev.role === "Developer" && dev.age > 30,
+  );
+  console.log(activeDev);
+
+  const firstActive =
+    users.find((user) => user.active === true && user.age < 30)?.name ??
+    "No young active user found";
+  console.log(firstActive);
+
+  const sumAge = users
+    .filter((user) => user.active === true)
+    .reduce((total, actual) => total + actual.age, 0);
+  console.log(sumAge);
+};
+
+pulledUsers();
+
+// =================================================================================
+// =================================================================================
+// =================================================================================
