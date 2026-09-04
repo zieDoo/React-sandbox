@@ -1,0 +1,81 @@
+<!-- There is a multiple ways to get a React App up and running.
+ 
+Ultimately you want to use a build tool like Vite or framework like NextJS.
+
+A) CDN
+The simplest way is to use the React 'CDN' (you wouldnt use it in Production).
+But it is nice way to get started.
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React App</title>
+    <!-- We download these two script lines from React.dev / learn / installation / 'download this HTML page'
+    1) First line is for React framework itself
+    2) Second line is for the React-DOM which allows you to use React in the browser in the DOM - Document Object Model.
+    -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- These two lines -->
+  </head>
+  <body>
+    <!-- The React is build around the components.
+     Components are UI building blocks and at the core of every React App is a component tree that starts with a root component. And this is usually called App. That App component is what is initially rendered on the screen and it's rendered by React DOM and we use a root element to do that.   
+     -->
+    <div id="root"></div>
+    <!-- This root element (div with root id) is esentially an entry point for our entire React application / user interface -->
+
+    <!-- This is our SPA - Single Page Application 
+
+     everything will be loaded through this (root) div via javascript.
+      Even if you have a different routes. it seems like you are going to a different pages, clicking on the links but in fact JS just loading these views/components.
+     -->
+
+    <!-- We add a script tag for our main App component -->
+    <script>
+      // Important is = we wont be using .createElement() = it is tedious.
+
+      // New component
+      function Header() {
+        return React.createElement(
+          "header",
+          null,
+          // if we want to have a new tag/element, we need to use another React.createElement.
+          React.createElement("h2", null, "My App Header"),
+
+          // So if we want to nest elements, we need to keep adding these createElement method, which is not recommended.
+        );
+      }
+      // We need to have a main App component.
+      // So we add a function called App.
+      // Uppercase name in function is convention here.
+      // Components starting with Uppercase first letter.
+      function App() {
+        // we usualy returns here a JSX - Javascript XML
+        // but now we use low level way without JSX = (never do it)
+
+        // This is happening behind the hood.
+        return React.createElement(
+          // Any element on the page (any HTML tag or component) it's created with this method - 'React.createElement()'
+          "div", // <--- element itself
+          null, // <--- any attribute/properties that we want to add
+          React.createElement(Header), // <--- actual content we want to add
+          React.createElement("h1", null, "Hello React"),
+        );
+      }
+
+      // we need to select our root element to bind it with our App
+      const container = document.getElementById("root");
+
+      // we create a root element using ReactDOM.
+      // ReactDOM is a library that's takes care of showing things on the browser. It has method called 'createRoot()' and we pass in container
+      const root = ReactDOM.createRoot(container);
+
+      // root has method render. Here we render the main App component.
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
