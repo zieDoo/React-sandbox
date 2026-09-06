@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React App</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Since we are in this environment using the CDN, JSX will not work here. We have to compile it with Babel. -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Babel requirement -->
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- To use a Babel we need to add a type to our script tag. Now, we can use JSX in our file -->
+
+    <!-- We can see that using JSX is much easier. But under the hood, it is still using the createElement. -->
+    <script type="text/babel">
+      function Header() {
+        return (
+          <header>
+            <h2>App Header</h2>
+          </header>
+        );
+      }
+
+      function App() {
+        // Here we are using JSX now, instead of React.createElement methods.
+
+        // At the top, we can have only one element which wraps everything (in return). We cannot have more. We use div, otherwise: JSX expressions must have one parent element! error message.
+        return (
+          // <div> Here if we dont want to have this div, we can use fragment. There are two ways: 1) use <React.Fragments>, 2) use shorthand <>
+          <React.Fragment>
+            <>
+              <Header />
+              <h1>Hello, React</h1>
+            </>
+          </React.Fragment>
+          // </div>
+        );
+      }
+
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
