@@ -1,26 +1,32 @@
 // There is many different ways to style your components in React.
 
-// 1) Inline styling
-
-// using 'style' tag. We have to use double curly braces {{}}. Because we are putting there a javascript not a CSS. Outter braces saying it will be JS/dynamic content. Inner braces saying it will be object.Here we using cammelCase 'textAlign' syntax because it is JS object. Usual CSS syntax is with dash: 'text-align'
+// 1) Style Object
 
 const Rating = () => {
   return (
-    <div
-      style={{
-        textAlign: "center",
-        fontFamily: "Arial",
-        padding: "20px",
-      }}
-    >
-      <h2>Rate Your Experience</h2>
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Rate Your Experience</h2>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    textAlign: "center",
+    fontFamily: "Arial",
+    padding: "20px",
+  },
+  heading: {
+    color: "red",
+  },
 };
 
 export default Rating;
 
 // 1) Inline styling
+
+// using 'style' tag. We have to use double curly braces {{}}. Because we are putting there a javascript not a CSS. Outter braces saying it will be JS/dynamic content. Inner braces saying it will be object.Here we using cammelCase 'textAlign' syntax because it is JS object. Usual CSS syntax is with dash: 'text-align'
+
 // 2) Style Object
 // 3) Plain CSS
 // 4) CSS modules
