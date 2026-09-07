@@ -1,10 +1,10 @@
 // There is many different ways to style your components in React.
 
-// 1) Style Object
+// 3) Plain CSS - usual way
 
 const Rating = () => {
   return (
-    <div>
+    <div className="rating-container">
       <h2>Rate Your Experience</h2>
     </div>
   );
