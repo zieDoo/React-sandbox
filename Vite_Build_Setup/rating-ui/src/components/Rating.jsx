@@ -1,35 +1,60 @@
 const Rating = () => {
-  // For dynamic array
-  // we dont need a value so using a '_' placeholder.
-  // i - is for the index
-  // returning i + 1, so it just increments.
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
+
+  // Here we create an onClik function
+  const clicked = (index) => console.log("clicked", index);
+
+  const hovered = (direction, index) =>
+    console.log("Hovered", direction, index);
 
   return (
     <div className="rating-container">
       <h2>Rate Your Experience</h2>
       <div className="stars">
-        {stars.map(
-          (
-            star, // use stars instead of hardcoded array with numbers.
-          ) => (
-            // {[1, 2, 3, 4, 5].map((star) => (
-            //   <span>{star}</span> // we wan to render something base on each of these items/stars. star is 1,2,...
-            // But we can use UNICODE characters: '\u2605' = star
+        {stars.map((star, index) => (
+          // we add function 'onClick' in our span
 
-            // !!! we have to add a key to span !!!
-            <span key={star} className="star">
-              {"\u2605"}
-            </span> // we also add className to our span
-          ),
-        )}
+          // if we want to pass in an argument into our function (like index)
+          // it will automatically run, because we add paretnheses ()
+          // if we put just a function name in, it doesnt run right away.
+          // so we dont use argument '(index)', instead we use arrow function:
+          // so if we want to pass something to the function, we have to have the arrow function pointing to it.
+          <span
+            onClick={() => clicked(index)}
+            onMouseEnter={() => hovered("Enter", index)}
+            onMouseLeave={() => hovered("Leave", index)}
+            key={star}
+            className="star"
+          >
+            {/* <span onClick={clicked(index)} key={star} className="star"> This is ran right away*/}
+            {/* <span onClick={clicked} key={star} className="star"> */}
+            {"\u2605"}
+          </span>
+        ))}
       </div>
     </div>
   );
 };
 
+// clicked() - this is run away.
+
 export default Rating;
 
-// We can create a list using with map method. List in react is simply a group of items. Usually you gona render some kind of JSX output per item.
+// Vanilla JS Event Handler
 
-// If we creating a list in React, we need to add a key to element we rendering. otherwise we get a warning: 'Each child in a list should have a unique "key" prop.'
+// Inline events - we shouldnt use it. We should use Event Listener instead.
+{
+  /* <button onclick="activateLasers()">Activate Lasers</button> */
+}
+
+// React Event Hanlder
+
+// In React/JSX, we can use 'onClick' but it needs to be cammelCase.
+// We need to have curly braces {} as this is dynamic and we call the function without parentheses
+
+{
+  /* <button onclick={activateLasers}>Activate Lasers</button> */
+}
+
+// There are many Events:
+// onClick, onSubmit, onFocus, onMouseOver, onMouseOut, onScroll, onDoubleClick,...
