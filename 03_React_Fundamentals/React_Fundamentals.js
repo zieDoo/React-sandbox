@@ -1,12 +1,13 @@
 // Components
 // Styling
-// Props
 // Lists & Keys
 // Event Handling
-// Hooks
 // State & useState Hook
+// Hooks
 // Conditional Rendering
+// Props
 // Component Composition
+// Passing Data as Children
 
 // =================================================================================
 // =================================================================================
