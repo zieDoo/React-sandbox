@@ -2,7 +2,11 @@ import Rating from "./components/Rating";
 import { useState } from "react";
 
 const Counter = () => {
-  const [count, setCount] = useState(0);
+  //   const [count, setCount] = useState(0);    // Our default value can be also a function. We can do something in our initial state. But we need to return our initial state value (0 in our case). And whatever we return from this, is gona be a value that is saved as default for this piece of state.
+  const [count, setCount] = useState(() => {
+    console.log("Init count state...");
+    return 9;
+  });
   return (
     <>
       <h2>Counter: {count}</h2>
