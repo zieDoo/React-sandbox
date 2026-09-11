@@ -1,19 +1,26 @@
 import Rating from "./components/Rating";
+import { useState } from "react";
 
-// For components we can use regular functions and also arrow functions
-// (Naming convention is with capital naming)
+const Counter = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <>
+      <h2>Counter: {count}</h2>
+    </>
+  );
+};
 
 const App = () => {
   return (
     <div>
       <Rating />
+      <Counter />
     </div>
   );
 };
 
 export default App;
 
-// Everything in React is Component. Components are building blocks of React application.
-// Component is reusable piece of code that defines how part of the user interface should look and behave. Components can be nested inside of one another as well.
-
-// We can create multiple components in one file and then move it to separate file.
+// you can pass a function as initial state
+// you can pass a function to the setter
+// you can get the previous state within that setter function
