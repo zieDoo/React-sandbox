@@ -8,23 +8,20 @@ const Counter = () => {
     return 0;
   });
 
-  // In setter (setCount), we can also pass a function
-
-  const increment = () => {
-    // setCount(count + 1); // adding +1 when we click the button
-    // Issue is, if we using a previous state (count), like in our case.
-    // We shouldnt do it this way. We should pass a function
-    setCount((prevCount) => {
-      // we can pass a previous value
-      console.log(prevCount);
-      return prevCount + 1; // returning previos count + 1
-    });
-  };
-
   return (
     <>
       <h2>Counter: {count}</h2>
-      <button onClick={increment}>Increment</button>
+      <button
+        onClick={() =>
+          // We can directly pass the function to our event handler
+          setCount((prevCount) => {
+            console.log(prevCount);
+            return prevCount + 1;
+          })
+        }
+      >
+        Increment
+      </button>
     </>
   );
 };
