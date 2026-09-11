@@ -14,7 +14,11 @@ const Counter = () => {
     // setCount(count + 1); // adding +1 when we click the button
     // Issue is, if we using a previous state (count), like in our case.
     // We shouldnt do it this way. We should pass a function
-    setCount(count + 1);
+    setCount((prevCount) => {
+      // we can pass a previous value
+      console.log(prevCount);
+      return prevCount + 1; // returning previos count + 1
+    });
   };
 
   return (
