@@ -1,11 +1,7 @@
 import { useState } from "react";
 
-// To use a prop
-// Here we taking our props as an argument
-
-// Here is the most common place where we can use Destructuring.
-// We change (props) to ({heading}). Instead of using 'props.something' everywhere, we just use {} and destructure the 'heading' from the props object. So we dont need to put 'props.heading' everywhere, we just use 'heading'
-const Rating = ({ heading }) => {
+// We can also have a default value, if nothing is passed in props in main App.
+const Rating = ({ heading = "Rate your Experience" }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
