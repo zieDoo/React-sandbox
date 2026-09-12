@@ -9,6 +9,9 @@ const App = () => {
       {/* In our main App component we can put our prop called with whatever name.
   We decided to pass props called 'heading' with string. */}
       <Rating heading="How do you feel about React?" />
+      {/* We can have multiple components with different props */}
+      <Rating heading="How do you feel about Vue.js?" />
+      <Rating heading="How do you feel about Angular?" />
     </div>
   );
 };
