@@ -2,7 +2,10 @@ import { useState } from "react";
 
 // To use a prop
 // Here we taking our props as an argument
-const Rating = (props) => {
+
+// Here is the most common place where we can use Destructuring.
+// We change (props) to ({heading}). Instead of using 'props.something' everywhere, we just use {} and destructure the 'heading' from the props object. So we dont need to put 'props.heading' everywhere, we just use 'heading'
+const Rating = ({ heading }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
@@ -13,7 +16,8 @@ const Rating = (props) => {
   return (
     <div className="rating-container">
       {/* Here we can use our props argument to have dynamic behavior*/}
-      <h2>{props.heading}</h2>
+      {/* And after destructuring, we can use only 'heading' */}
+      <h2>{heading}</h2>
       <div className="stars">
         {stars.map((star) => (
           <span
