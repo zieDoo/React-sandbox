@@ -35,7 +35,10 @@ const Rating = ({
             // And now we adjust our function body to run setRating
             // Because 'setRating' is already a function which expects a 'star' value, we can pass it directly and
             // child component call it with argument (ratingClick(star)) in our 'Star' component.
+
+            // Also we want 'setRating' to run in file 'Rating.jsx', because that state is part of this file.
             ratingClick={setRating}
+            hoverEnter={setHover} // we do same for hover
           />
           // <span
           //   onClick={() => setRating(star)}
