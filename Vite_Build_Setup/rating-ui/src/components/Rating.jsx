@@ -20,11 +20,18 @@ const Rating = ({
             key={star} // we have to put a key, to fix React warning for missing key for each child
             star={star} // passing star itself from map method.
             // We need to have acces to rating and hover variables. (to our states)
-            // This is common: we have state from one component (rating/hover) those are state we create them with useStsate  hook. // you pass them into the child component as the prop. So that you can them acces it from within this child component:
+            // This is common: we have states from Rating component (rating/hover), we create them with useStsate hook. // you pass them into the child component as the prop. So that you can acces it from within this child Star component:
 
             rating={rating}
             hover={hover}
             color={color}
+            // IMPORTANT - we cannot do an onClick and setRating on the custom component.
+            // Star component is custom component and it is not an HTML tag. It doesnt know what onClick is, yet.
+            // We have to describe it.
+
+            // Lets add a test function
+            // Functions can be passed to our child component as a prop as any other value.
+            testFunction={() => console.log("Test")}
           />
           // <span
           //   onClick={() => setRating(star)}
