@@ -31,7 +31,11 @@ const Rating = ({
 
             // Lets add a test function
             // Functions can be passed to our child component as a prop as any other value.
-            testFunction={() => console.log("Test")}
+
+            // And now we adjust our function body to run setRating
+            // Because 'setRating' is already a function which expects a 'star' value, we can pass it directly and
+            // child component call it with argument (ratingClick(star)) in our 'Star' component.
+            ratingClick={setRating}
           />
           // <span
           //   onClick={() => setRating(star)}
