@@ -39,19 +39,8 @@ const Rating = ({
             // Also we want 'setRating' to run in file 'Rating.jsx', because that state is part of this file.
             ratingClick={setRating}
             hoverEnter={setHover} // we do same for hover
+            hoverLeave={() => setHover(null)} // here we have to use arrow function as we want to pass a 'null'
           />
-          // <span
-          //   onClick={() => setRating(star)}
-          //   onMouseEnter={() => setHover(star)}
-          //   onMouseLeave={() => setHover(0)} // back to original state
-          //   key={star}
-          //   className="star"
-          //   style={{
-          //     color: star <= (hover || rating) ? color : "#ccc",
-          //   }}
-          // >
-          //   {"\u2605"}
-          // </span>
         ))}
       </div>
 
