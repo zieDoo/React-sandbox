@@ -15,11 +15,17 @@ const Rating = ({
 
   // We add handleSubmit function
   // We make sure if rating is not a zero (rating is there).
-  // So, if rating is greater than 0, then we want to set setSubmitted to true.
+  // So, if rating is greater than 0, then we want to set 'submitted' to true.
   const handleSubmit = () => {
     if (rating > 0) {
       setSubmitted(true);
     }
+  };
+
+  const closeModal = () => {
+    setSubmitted(false);
+    setRating(0);
+    setHover(0);
   };
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -41,8 +47,7 @@ const Rating = ({
           />
         ))}
       </div>
-      // only want this to show if submitted is true. so if submitted is true,
-      then Im just gona use double ampersand && (ternary can be used as well)
+
       {rating > 0 && <p className="feedback">{feedbackMessages[rating - 1]}</p>}
       {/* Here we add a button with our CSS style */}
       <button
@@ -52,6 +57,22 @@ const Rating = ({
       >
         Submit
       </button>
+      {/* Modal */}
+      {/*We put here only curly braces {} as we only want this to show if submitted is true. 
+      So if submitted is true, then we just gona use double ampersand && (ternary can be used as well) */}
+      {submitted && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Thank You</h2>
+            <p>
+              You rated us {rating} star{rating > 1 ? "s" : ""}
+            </p>
+            <button className="close-btn" onClick={closeModal}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
