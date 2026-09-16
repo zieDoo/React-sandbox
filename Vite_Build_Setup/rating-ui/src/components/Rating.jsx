@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Star from "./Star";
 
+// Now we add a submit button and modal component. When rating is submitted, modal component pops up.
 const Rating = ({
   heading = "Rate your Experience",
   color = "gold",
@@ -8,6 +9,18 @@ const Rating = ({
 }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+
+  // Add useState hook to monitor 'submitted' state
+  const [submitted, setSubmitted] = useState(false);
+
+  // We add handleSubmit function
+  // We make sure if rating is not a zero (rating is there).
+  // So, if rating is greater than 0, then we want to set setSubmitted to true.
+  const handleSubmit = () => {
+    if (rating > 0) {
+      setSubmitted(true);
+    }
+  };
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -17,34 +30,28 @@ const Rating = ({
       <div className="stars">
         {stars.map((star) => (
           <Star
-            key={star} // we have to put a key, to fix React warning for missing key for each child
-            star={star} // passing star itself from map method.
-            // We need to have acces to rating and hover variables. (to our states)
-            // This is common: we have states from Rating component (rating/hover), we create them with useStsate hook. // you pass them into the child component as the prop. So that you can acces it from within this child Star component:
-
+            key={star}
+            star={star}
             rating={rating}
             hover={hover}
             color={color}
-            // IMPORTANT - we cannot do an onClick and setRating on the custom component.
-            // Star component is custom component and it is not an HTML tag. It doesnt know what onClick is, yet.
-            // We have to describe it.
-
-            // Lets add a test function
-            // Functions can be passed to our child component as a prop as any other value.
-
-            // And now we adjust our function body to run setRating
-            // Because 'setRating' is already a function which expects a 'star' value, we can pass it directly and
-            // child component call it with argument (ratingClick(star)) in our 'Star' component.
-
-            // Also we want 'setRating' to run in file 'Rating.jsx', because that state is part of this file.
             ratingClick={setRating}
-            hoverEnter={setHover} // we do same for hover
-            hoverLeave={() => setHover(null)} // here we have to use arrow function as we want to pass a 'null'
+            hoverEnter={setHover}
+            hoverLeave={() => setHover(null)}
           />
         ))}
       </div>
-
+      // only want this to show if submitted is true. so if submitted is true,
+      then Im just gona use double ampersand && (ternary can be used as well)
       {rating > 0 && <p className="feedback">{feedbackMessages[rating - 1]}</p>}
+      {/* Here we add a button with our CSS style */}
+      <button
+        className="submit-btn" // adding style from our CSS
+        onClick={handleSubmit} // call function with onClick handler
+        disabled={rating === 0} // Button is disabled if there is no rating
+      >
+        Submit
+      </button>
     </div>
   );
 };
