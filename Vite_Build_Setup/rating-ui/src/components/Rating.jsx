@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Star from "./Star";
-import Modal from "./Modal"; // we import our Modal component
+import Modal from "./Modal";
+import Button from "./Button"; // import new Button
 
 const Rating = ({
   heading = "Rate your Experience",
@@ -33,6 +34,7 @@ const Rating = ({
       <h2>{heading}</h2>
       <div className="stars">
         {stars.map((star) => (
+          // We know how to pass a props to a component as an ATTRIBUTE. (Like html attributes). Here attributes are: star, rating, hover, ...
           <Star
             key={star}
             star={star}
@@ -43,27 +45,31 @@ const Rating = ({
             hoverEnter={setHover}
             hoverLeave={() => setHover(null)}
           />
+
+          // But we can pass value also as a 'CHILDREN' prop.
+          // It is whatever value we passing between component tags:
+          //
+          // <Star> Whatever Here is CHILDREN prop</Star>
         ))}
       </div>
 
       {rating > 0 && <p className="feedback">{feedbackMessages[rating - 1]}</p>}
-      {/* Here we add a button with our CSS style */}
-      <button
+
+      {/* <button
         className="submit-btn" // adding style from our CSS
         onClick={handleSubmit} // call function with onClick handler
         disabled={rating === 0} // Button is disabled if there is no rating
       >
         Submit
-      </button>
+      </button> */}
 
-      {/* And we insert our Modal component */}
+      {/* Here we replace our button with custom Button */}
+
+      <Button>Submit</Button>
+      {/* to get this 'Submit' text inside our Button component, we destructuring the props with 'CHILDREN' keyword  */}
+
       <Modal isOpen={submitted} onClose={closeModal} rating={rating} />
     </div>
-    // 1) - isOpen - is gona pertain to the submitted state. Because if it is submitted, I click submit button, then the modal is gona be open.
-    // If it is not submitted, the modal wont show, wont be open.
-    // 2) With 'onClose' handler, when it's called withing the Modal component, I want to call 'closeModal'. Which will reset UI and set submitted
-    // and other functions back to defaults.
-    // 3) Passing a rating as well because we are using it in Modal component.
   );
 };
 
