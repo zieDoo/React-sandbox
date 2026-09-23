@@ -65,8 +65,17 @@ const Rating = ({
 
       {/* Here we replace our button with custom Button */}
 
-      <Button>Submit</Button>
+      <Button
+        className="submit-btn"
+        disabled={rating === 0}
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
       {/* to get this 'Submit' text inside our Button component, we destructuring the props with 'CHILDREN' keyword  */}
+      {/* Now, problem is that rest of the attributes will NOT work because they are not on regular button, but on CUSTOM button. */}
+
+      {/* So we pass them as props to the component */}
 
       <Modal isOpen={submitted} onClose={closeModal} rating={rating} />
     </div>

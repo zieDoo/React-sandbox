@@ -5,6 +5,8 @@
 // It is using rating component state. So if we call 'onClose' function, it will call 'closeModal'.
 // 3) - Last prop we need to have is rating itself:
 
+import Button from "./Button";
+
 const Modal = ({ isOpen, onClose, rating }) => {
   // Now, we checks here instead of in the rating:
   // If is not isOpen, return null.
@@ -20,10 +22,10 @@ const Modal = ({ isOpen, onClose, rating }) => {
         <p>
           You rated us {rating} star{rating > 1 ? "s" : ""}
         </p>
-        {/* And we replace 'closeModal' with 'onClose' as closeModal is no longer applies here */}
-        <button className="close-btn" onClick={onClose}>
+        {/* We use our reusable Button component instead of regular button component */}
+        <Button className="close-btn" onClick={onClose}>
           Close
-        </button>
+        </Button>
       </div>
     </div>
   );
