@@ -1,10 +1,25 @@
 import { useState } from "react";
 
 const NoteForm = () => {
-  const [title, setTitle] = useState("");
-  const [priority, setPriority] = useState("Medium");
-  const [category, setCategory] = useState("Work");
-  const [description, setDescription] = useState("");
+  // We can have data object which has properties representing each input
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "Work",
+    priority: "Medium",
+    description: "",
+  });
+
+  // Our own handleChange function
+  const handleChange = (e) => {
+    // console.log(e.target.name);
+
+    // This needs to be immutable so we are spreading a formData (...)
+    setFormData({
+      ...formData,
+      // And then we replace chosen property, where we put actual value.
+      [e.target.name]: e.target.value, // [title/category/priority]: value
+    });
+  };
 
   return (
     <form className="mb-6">
@@ -13,10 +28,14 @@ const NoteForm = () => {
           Title
         </label>
         <input
+          // To get a correct input, we assign a name which has to match with property name of our formData object
+          name="title"
           type="text"
           className="w-full p-2 border rounded-lg"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          // But we need to replace title with our data object
+          value={formData.title}
+          // We also replace onChange function with our own 'handleChange' function
+          onChange={handleChange}
         />
       </div>
 
@@ -25,10 +44,11 @@ const NoteForm = () => {
           Priority
         </label>
         <select
+          name="priority"
           type="text"
           className="w-full p-2 border rounded-lg"
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          value={formData.priority}
+          onChange={handleChange}
         >
           <option value="High">High</option>
           <option value="Medium">Medium</option>
@@ -41,10 +61,11 @@ const NoteForm = () => {
           Category
         </label>
         <select
+          name="category"
           type="text"
           className="w-full p-2 border rounded-lg"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={formData.category}
+          onChange={handleChange}
         >
           <option value="Work">Work</option>
           <option value="Personal">Personal</option>
@@ -57,10 +78,11 @@ const NoteForm = () => {
           Description
         </label>
         <textarea
+          name="description"
           type="text"
           className="w-full p-2 border rounded-lg"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={formData.description}
+          onChange={handleChange}
         ></textarea>
       </div>
 
