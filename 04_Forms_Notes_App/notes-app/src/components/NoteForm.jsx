@@ -21,8 +21,13 @@ const NoteForm = () => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("FormSubmitted: ", formData);
+  };
+
   return (
-    <form className="mb-6">
+    <form onSubmit={handleSubmit} className="mb-6">
       <div className="mb-4">
         <label htmlFor="title" className="block font-semibold">
           Title
