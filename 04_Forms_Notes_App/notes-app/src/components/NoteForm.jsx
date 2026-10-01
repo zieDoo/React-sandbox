@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const NoteForm = () => {
+// Adding props from App component.
+const NoteForm = ({ notes, setNotes }) => {
   // We can have data object which has properties representing each input
   const [formData, setFormData] = useState({
     title: "",
@@ -21,9 +22,28 @@ const NoteForm = () => {
     });
   };
 
+  // Basic function for form submission.
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("FormSubmitted: ", formData);
+
+    // Make sure that there is a title and description at least.
+    if (!formData.title || !formData.description) return;
+
+    // New object with added 'id' to our formData object
+    const newNote = { id: Date.now(), ...formData };
+
+    // Adding notes to the state
+    // It is an array of notes.
+    setNotes([newNote, ...notes]);
+
+    // Reset form Data
+    setFormData({
+      title: "",
+      category: "Work",
+      priority: "Medium",
+      description: "",
+    });
   };
 
   return (
