@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-// Adding props from App component.
 const NoteForm = ({ notes, setNotes }) => {
-  // We can have data object which has properties representing each input
   const [formData, setFormData] = useState({
     title: "",
     category: "Work",
@@ -10,31 +8,29 @@ const NoteForm = ({ notes, setNotes }) => {
     description: "",
   });
 
-  // Our own handleChange function
-  const handleChange = (e) => {
-    // console.log(e.target.name);
+  // We adding a new piece of state when we adding a new dynamic interactive functionality.
+  // So for our collapsible form we add a new state.
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
-    // This needs to be immutable so we are spreading a formData (...)
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      // And then we replace chosen property, where we put actual value.
-      [e.target.name]: e.target.value, // [title/category/priority]: value
+
+      [e.target.name]: e.target.value,
     });
   };
 
-  // Basic function for form submission.
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("FormSubmitted: ", formData);
 
-    // Make sure that there is a title and description at least.
+    // Validation
     if (!formData.title || !formData.description) return;
 
-    // New object with added 'id' to our formData object
+    // Create note object
     const newNote = { id: Date.now(), ...formData };
 
-    // Adding notes to the state
-    // It is an array of notes.
+    // Add notes to state
     setNotes([newNote, ...notes]);
 
     // Reset form Data
@@ -47,74 +43,87 @@ const NoteForm = ({ notes, setNotes }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6">
-      <div className="mb-4">
-        <label htmlFor="title" className="block font-semibold">
-          Title
-        </label>
-        <input
-          // To get a correct input, we assign a name which has to match with property name of our formData object
-          name="title"
-          type="text"
-          className="w-full p-2 border rounded-lg"
-          // But we need to replace title with our data object
-          value={formData.title}
-          // We also replace onChange function with our own 'handleChange' function
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="priority" className="block font-semibold">
-          Priority
-        </label>
-        <select
-          name="priority"
-          type="text"
-          className="w-full p-2 border rounded-lg"
-          value={formData.priority}
-          onChange={handleChange}
-        >
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="category" className="block font-semibold">
-          Category
-        </label>
-        <select
-          name="category"
-          type="text"
-          className="w-full p-2 border rounded-lg"
-          value={formData.category}
-          onChange={handleChange}
-        >
-          <option value="Work">Work</option>
-          <option value="Personal">Personal</option>
-          <option value="Ideas">Ideas</option>
-        </select>
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="description" className="block font-semibold">
-          Description
-        </label>
-        <textarea
-          name="description"
-          type="text"
-          className="w-full p-2 border rounded-lg"
-          value={formData.description}
-          onChange={handleChange}
-        ></textarea>
-      </div>
-
-      <button className="w-full bg-purple-500 text-white py-2 rounded-lg cursor-pointer hover: bg-purple-600">
-        Add Note
+    <>
+      {/* Adding a toggle button */}
+      <button
+        // We set an opposite of what 'isFormVisible' is
+        onClick={() => setIsFormVisible(!isFormVisible)}
+        // Classes on the button
+        className="w-full bg-gray-100 border border-gray-300 text-purple-800 py-2 rounded-lg cursor-pointer hover:bg-purple-200 hover:border-purple-300 transition mb-4"
+      >
+        {/* Showing Dynamic text on Button with Ternary*/}
+        {isFormVisible ? "Hide Form x" : "Add New Note +"}
       </button>
-    </form>
+
+      {/* And we move our whole form to our Short Circuit Rendering condition */}
+      {isFormVisible && (
+        <form onSubmit={handleSubmit} className="mb-6">
+          <div className="mb-4">
+            <label htmlFor="title" className="block font-semibold">
+              Title
+            </label>
+            <input
+              name="title"
+              type="text"
+              className="w-full p-2 border rounded-lg"
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="priority" className="block font-semibold">
+              Priority
+            </label>
+            <select
+              name="priority"
+              type="text"
+              className="w-full p-2 border rounded-lg"
+              value={formData.priority}
+              onChange={handleChange}
+            >
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="category" className="block font-semibold">
+              Category
+            </label>
+            <select
+              name="category"
+              type="text"
+              className="w-full p-2 border rounded-lg"
+              value={formData.category}
+              onChange={handleChange}
+            >
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Ideas">Ideas</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="description" className="block font-semibold">
+              Description
+            </label>
+            <textarea
+              name="description"
+              type="text"
+              className="w-full p-2 border rounded-lg"
+              value={formData.description}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+
+          <button className="w-full bg-purple-500 text-white py-2 rounded-lg cursor-pointer hover: bg-purple-600">
+            Add Note
+          </button>
+        </form>
+      )}
+    </>
   );
 };
 
