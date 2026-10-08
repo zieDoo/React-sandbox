@@ -10,7 +10,17 @@ const NoteList = ({ notes, deleteNote }) => {
       {notes.map((note) => (
         <div
           key={note.id} // dont forget to add a key for rendering main wrapping element
-          className="p-4 bg-white rounded-lg shadow-md border-l-4"
+          className="p-4 bg-white rounded-lg shadow-md border-l-4 "
+          // This was a challenge to add a color for specific priority
+          style={{
+            // borderColor: `${note.priority === "High" ? "red" : note.priority === "Medium" ? "orange" : "green"}`,
+            borderLeftColor:
+              note.priority === "High"
+                ? "red"
+                : note.priority === "Medium"
+                  ? "orange"
+                  : "green",
+          }}
         >
           <h3 className="text-lg font-bold">{note.title}</h3>
 
