@@ -1,13 +1,23 @@
-// For class component we need to import a React Component.
 import { Component } from "react";
 
-// When we using a class, we need to extend a main Component class from React.
 class LifecycleLogger extends Component {
-  // In Class component, we need to add a render method and from that we can run return.
+  // In class component, we taking a props trough constructor
+  // (not with parameters like in functional component)
+
+  // Constructor is ran when component is INITIALIZED and we taken props here.
+  constructor(props) {
+    // REMEMBER: we need to call constructor of the component that we extending, "Component"
+    // So we need to call function 'super()' with props
+    super(props);
+    console.log("Component init...");
+  }
+
   render() {
     return (
       <div className="logger-container">
         <h2>LifecycleLogger (Class Component)</h2>
+        {/* We use 'this' to access a props within a class component */}
+        <p>{this.props.message}</p>
       </div>
     );
   }
