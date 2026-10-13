@@ -16,8 +16,8 @@ function App() {
         {showLogger ? "Unmount Logger" : "Mount Logger"}
       </button>
 
-      {/* We passing a props as regular functional component */}
-      {showLogger && <LifecycleLogger message="Hello prop" />}
+      {/* We can call our class component as usual */}
+      {showLogger && <LifecycleLogger />}
     </div>
   );
 }
