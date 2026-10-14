@@ -17,7 +17,7 @@ function App() {
       </button>
 
       {/* We passing a props as regular functional component */}
-      {showLogger && <LifecycleLogger message="Hello propy" />}
+      {showLogger && <LifecycleLogger />}
     </div>
   );
 }
