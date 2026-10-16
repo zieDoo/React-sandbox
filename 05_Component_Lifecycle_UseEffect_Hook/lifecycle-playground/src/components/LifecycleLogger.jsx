@@ -5,6 +5,9 @@ class LifecycleLogger extends Component {
     super(props);
     console.log("Component init...");
 
+    // If we want to use regular function. incrementCount(){}. Otherwise use Arrow function.
+    // this.incrementCount = this.incrementCount.bind(this)
+
     // For the Update part of the Lifecycle - we have to add piece of state as in functional component
     // It is equivalent to = const [count, setCount] = useState(0);
     this.state = {
@@ -16,9 +19,12 @@ class LifecycleLogger extends Component {
     console.log("Component mounted...");
   }
 
-  incrementCount() {
-    console.log("Hello there");
-  }
+  incrementCount = () => {
+    this.setState((prevState) => ({
+      // prevState is whole object, so we want count specifically.
+      count: prevState.count + 1,
+    }));
+  };
 
   render() {
     return (
