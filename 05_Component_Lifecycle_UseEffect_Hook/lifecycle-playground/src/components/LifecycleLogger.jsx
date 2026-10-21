@@ -1,67 +1,30 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 
-class LifecycleLogger extends Component {
-  constructor(props) {
-    super(props);
-    console.log("Component init...");
+// Now, we can use one useEffect hook to replace all three lifecycle methods.
 
-    this.state = {
-      count: 0,
-    };
-  }
-
-  componentDidMount() {
+const LifecycleLogger = () => {
+  useEffect(() => {
     console.log("Component mounted...");
-  }
+  }, []);
+  // If we want to just only Mount, we leave our dependency array empty []. It means that it will run only once, when components mounts.
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.count !== this.state.count) {
-      console.log("Component updated...", this.state.count);
-    }
-  }
-
-  componentWillUnmount() {
-    console.log("Component unmount...");
-  }
-
-  incrementCount = () => {
-    this.setState((prevState) => ({
-      count: prevState.count + 1,
-    }));
-  };
-
-  render() {
-    return (
-      <div className="logger-container">
-        <h2>LifecycleLogger (Class Component)</h2>
-
-        <p>Count: {this.state.count}</p>
-
-        <button onClick={this.incrementCount} className="secondary-btn">
-          Update
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="logger-container">
+      <h2>LifecycleLogger (Function Component)</h2>
+    </div>
+  );
+};
 
 export default LifecycleLogger;
 
-// INITIALIZATION vs MOUNT
-//
-// Initialization is not a part of a Lifecycle
-// It is happen before any of the Lifecycle steps.
+// useEFFECT method
+// - it takes two arguments
 
-// Initialization is when component is put into memory.
-// (It has nothing to do with adding to DOM)
+// 1 Argument - Function (our effect)
+//      - this is the code to be executed (API calls,...)
+//      - this function can optionally return another function (so called cleanup function, which works like componentWillunmount)
 
-// Mounting - is specific to mounting component to DOM
-
-// If we want to add any 'Site Effect' (like request to API) -> you wouldnt do it in INITIALIZATION
-
-// BUT in Initialization we do thinks like:
-// - set your State
-// - take your props
-// - bind event handlers
-
-// So to do a 'site effect', like make API useCallback, when the component mounts (on many cases it is on page load), you will use: componentDidMount() method
+// 2 Argument - Dependancy Array
+//     - This is an array of variables that React watches
+//     - The effect will trigger again only if one of the values in this array changes.
+//     - If you leave it empty [], it will run only once.
