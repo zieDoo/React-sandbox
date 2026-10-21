@@ -1,31 +1,28 @@
 import { useState, useEffect } from "react";
 
-// Now, we can use one useEffect hook to replace all three lifecycle methods.
-
 const LifecycleLogger = () => {
-  // for update we add a count state and setCount state hook
   const [count, setCount] = useState(0);
 
+  // ComponentDidMount
   useEffect(() => {
     console.log("Component mounted...");
-  }, []);
-  // If we want to just only Mount, we leave our dependency array empty [].
-  // It means that it will run only once, when components mounts.
 
-  // For Update we use another useEffect hook
+    // For unmount, we just need to return from the useEffect
+    // So whatever we put in our return, it will run on Unmount
+
+    // componentWillUnmount - cleanut function
+    return () => {
+      console.log("Component unmount...");
+    };
+  }, []);
+
+  // ComponentDidUpdate
   useEffect(() => {
-    // And we dont want to run the function on Mount, so we gona do a check,
-    // and make sure that count is not a zero.
     if (count > 0) {
       console.log("Component updated...", count);
     }
-    // Here we need to add a 'count' to Dependency Array.
-    // It saying that, if count changes, we want to run whatever function we have in our useEffect hook.
   }, [count]);
 
-  // The downsize of the Update here is - we dont have access to the Previous State (like we have in componentDidUpdate)
-
-  // Previous state is just for this piece of state, not whole thing (like in class for entire object)
   const incrementCount = () => {
     setCount((prevCount) => prevCount + 1);
   };
