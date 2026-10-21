@@ -7,6 +7,7 @@ class LifecycleLogger extends Component {
 
     // If we want to use regular function. incrementCount(){}. Otherwise use Arrow function.
     // this.incrementCount = this.incrementCount.bind(this)
+    // But dont using it, you can get many of them at the end. Not recommended.
 
     // For the Update part of the Lifecycle - we have to add piece of state as in functional component
     // It is equivalent to = const [count, setCount] = useState(0);
@@ -19,9 +20,11 @@ class LifecycleLogger extends Component {
     console.log("Component mounted...");
   }
 
+  // But now, we get an error with regular function, because THIS keyword is not BINDING automatically. Because regular function creates own THIS.
+  // With ARROW function it doesnt. So we use Arrow function here. (if you want to use regularf function, we can manually bind it in the constructor)
   incrementCount = () => {
     this.setState((prevState) => ({
-      // prevState is whole object, so we want count specifically.
+      // prevState is whole object, so we want 'count' specifically.
       count: prevState.count + 1,
     }));
   };
