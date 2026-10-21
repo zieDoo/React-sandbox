@@ -5,12 +5,6 @@ class LifecycleLogger extends Component {
     super(props);
     console.log("Component init...");
 
-    // If we want to use regular function. incrementCount(){}. Otherwise use Arrow function.
-    // this.incrementCount = this.incrementCount.bind(this)
-    // But dont using it, you can get many of them at the end. Not recommended.
-
-    // For the Update part of the Lifecycle - we have to add piece of state as in functional component
-    // It is equivalent to = const [count, setCount] = useState(0);
     this.state = {
       count: 0,
     };
@@ -19,12 +13,24 @@ class LifecycleLogger extends Component {
   componentDidMount() {
     console.log("Component mounted...");
   }
+  // In our case, we might want to check our previous Props or State and do something based on them.
+  componentDidUpdate(prevProps, prevState) {
+    // We only want to console log, if the 'count' is actually updated. Making sure that they are not the same and actually Incremented.
+    if (prevState.count !== this.state.count) {
+      console.log("Component updated...", this.state.count);
+    }
+  }
 
-  // But now, we get an error with regular function, because THIS keyword is not BINDING automatically. Because regular function creates own THIS.
-  // With ARROW function it doesnt. So we use Arrow function here. (if you want to use regularf function, we can manually bind it in the constructor)
+  // Metoda 'componentDidUpdate(prevProps, prevState)'
+  // - Metoda sa spusti okamzite po tom co sa component aktualizuje (kvoli zmene Props alebo State)
+  // - Nespusta sa pri prvom vykresleni componentu.
+  // - prevProps and prevState su pred aktualizaciou.
+
+  //  Ak vnutri 'componentDidUpdate' volame 'this.setState' musime ho vzdy obalit do podmienky, ktora porovnava aktualne props/state s predchadzajucimi.
+  // V opacnom pripade vznikne NEKONECNA slucka.
+
   incrementCount = () => {
     this.setState((prevState) => ({
-      // prevState is whole object, so we want 'count' specifically.
       count: prevState.count + 1,
     }));
   };
@@ -33,10 +39,9 @@ class LifecycleLogger extends Component {
     return (
       <div className="logger-container">
         <h2>LifecycleLogger (Class Component)</h2>
-        {/* To access the state we using 'this' */}
+
         <p>Count: {this.state.count}</p>
-        {/* To update this state we can use button with incrementCount function  */}
-        {/* We using 'this' because we are using methong which is part of this class */}
+
         <button onClick={this.incrementCount} className="secondary-btn">
           Update
         </button>
