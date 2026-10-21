@@ -13,21 +13,16 @@ class LifecycleLogger extends Component {
   componentDidMount() {
     console.log("Component mounted...");
   }
-  // In our case, we might want to check our previous Props or State and do something based on them.
+
   componentDidUpdate(prevProps, prevState) {
-    // We only want to console log, if the 'count' is actually updated. Making sure that they are not the same and actually Incremented.
     if (prevState.count !== this.state.count) {
       console.log("Component updated...", this.state.count);
     }
   }
 
-  // Metoda 'componentDidUpdate(prevProps, prevState)'
-  // - Metoda sa spusti okamzite po tom co sa component aktualizuje (kvoli zmene Props alebo State)
-  // - Nespusta sa pri prvom vykresleni componentu.
-  // - prevProps and prevState su pred aktualizaciou.
-
-  //  Ak vnutri 'componentDidUpdate' volame 'this.setState' musime ho vzdy obalit do podmienky, ktora porovnava aktualne props/state s predchadzajucimi.
-  // V opacnom pripade vznikne NEKONECNA slucka.
+  componentWillUnmount() {
+    console.log("Component unmount...");
+  }
 
   incrementCount = () => {
     this.setState((prevState) => ({
