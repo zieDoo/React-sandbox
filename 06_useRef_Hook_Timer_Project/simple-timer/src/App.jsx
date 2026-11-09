@@ -1,56 +1,65 @@
-// useRef gives us a way to kind a reach out of React and use methods and properties of DOM elements
-
-// It's like how to select a DOM elements in JS with 'document.querySelector'
-// So we can reach a DOM methods and properties: value, input, focus methods, classList, etc
-
-import { useRef } from "react"; // importing useRef
+import { useState, useRef } from "react";
 
 const App = () => {
-  // We create a reference to the input field, and we are setting an initial value to 'null'.
-  const inputRef = useRef(null);
+  // storing timer ID in timeRef
+  const timeRef = useRef(null);
 
-  // We can see that it gives us an object with 'current' property.
-  console.log(inputRef);
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
 
-  const submit = () => {
-    console.log(inputRef.current); // Return actual element itself
-
-    // And we can use many different methods and properties
-    // inputRef.current.focus();
-    inputRef.current.blur();
-    inputRef.current.style.backgroundColor = "red";
-    inputRef.current.style.color = "white";
-    inputRef.current.setAttribute("placeholder", "Updated...");
+  const toggleTimer = () => {
+    // check if our piece of state is running
+    if (isRunning) {
+      // CLear interval to stop the timer. We are passing an ID (in this case timeRef)
+      clearInterval(timeRef.current);
+      timeRef.current = null;
+    } else {
+      // Start timer if it isnt running
+      // setInterval is returning an ID. We put it into the ref
+      timeRef.current = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000); // so anything what is put in {} is run every second.
+      console.log("timeRef id: ", timeRef.current);
+    }
+    // And we call setIsRunning as we didnt start a timer anywhere. And we want to set it either true or false based on if it's running or not.
+    // set it to opposite what it is.
+    setIsRunning(!isRunning);
   };
 
-  // This is how React keeps reference 'IMMUTABLE' without triggering re-renders.
-  // This object (current) is stable accross re-renders. Doesnt change identity like a new object would
-  // If we assign something to 'inputRef.current', react wont re-render the component.
+  // We reset everything
+  const resetTimer = () => {
+    clearInterval(timeRef.current);
+    setIsRunning(false);
+    setTime(0);
+    timeRef.current = null;
+  };
 
   return (
-    // Classes for better visuals
-    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg text-center">
-      <h2 className="text-2xl font-bold mb-4">useRef Example</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 rounded-lg text-center">
+      <h2 className="text-4xl font-semibold mt-4">Timer: {time}</h2>
 
-      {/* Input type with inputRef reference */}
-      <input
-        type="text"
-        placeholder="Type something..."
-        className="w-full p-2 border rounded-lg"
-        // We attach a reference to our input
-        ref={inputRef}
-      />
-
-      {/* Button with classes and submit function */}
       <button
-        // Our onclick function
-        onClick={submit}
-        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        onClick={toggleTimer}
+        className="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-3"
       >
-        Submit
+        {isRunning ? "Pause" : "Start"}
+      </button>
+
+      {/* Reset button */}
+      <button
+        onClick={resetTimer}
+        className="mt-3 bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        Reset
       </button>
     </div>
   );
 };
 
 export default App;
+
+// when you call a setInterval or clearInterval in JS, we are dealing with an ID that's returned. and that needs to be kept across renders but not in state.
+
+// Why not use a regular variable instead of ref ?
+// in React, function componenents, everything inside the component runs from top to bottom on every render. So if we put for example : let timerId = null and setInterval(timerId), every time that component renders, that timerId will be set back to null. And we lose that value we had before.
+// With ref that value persist across state.
