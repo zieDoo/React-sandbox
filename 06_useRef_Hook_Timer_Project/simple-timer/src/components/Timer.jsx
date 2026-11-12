@@ -39,15 +39,15 @@ const Timer = () => {
   };
 
   return (
-    // Calling our new Components and passing a props to them
-    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 rounded-lg text-center">
+    <>
+      {/* Calling our new Components and passing a props to them */}
       <TimerDisplay time={time} />
       <TimerControls
         isRunning={isRunning}
         onToggleTimer={toggleTimer}
         onResetTimer={resetTimer}
       />
-    </div>
+    </>
   );
 };
 
